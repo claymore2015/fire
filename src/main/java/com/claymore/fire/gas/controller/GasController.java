@@ -1,9 +1,10 @@
-package com.claymore.fire.roadlineinfo.controller;
+package com.claymore.fire.gas.controller;
 
 import com.claymore.fire.common.domain.BaseResponse;
 import com.claymore.fire.common.domain.PageResult;
+import com.claymore.fire.gas.entity.GasEntity;
+import com.claymore.fire.gas.repository.GasRepository;
 import com.claymore.fire.roadlineinfo.entity.RoadLineInfoEntity;
-import com.claymore.fire.roadlineinfo.repository.RoadLineInfoRepository;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,34 +19,34 @@ import java.util.List;
  * @since 1.0.0
  */
 @RestController
-@RequestMapping("/road-line-info")
-public class RoadLineInfoController {
+@RequestMapping("/gas")
+public class GasController {
     
     @Autowired
-    private RoadLineInfoRepository roadLineInfoRepository;
+    private GasRepository gasRepository;
 
     @GetMapping("/{id}")
     @ApiOperation(value = "query roadline info with id", consumes = "GET", response = RoadLineInfoEntity.class)
-    public BaseResponse<RoadLineInfoEntity> findById(@PathVariable("id") Integer id) {
-        return new BaseResponse<>(roadLineInfoRepository.findById(id).get());
+    public BaseResponse<GasEntity> findById(@PathVariable("id") Integer id) {
+        return new BaseResponse<>(gasRepository.findById(id).get());
     }
 
     @PostMapping
-    public BaseResponse create(@RequestBody RoadLineInfoEntity roadLineInfoEntity) {
-        roadLineInfoRepository.save(roadLineInfoEntity);
+    public BaseResponse create(@RequestBody GasEntity gasEntity) {
+        gasRepository.save(gasEntity);
         return BaseResponse.instance();
     }
 
     @PutMapping
-    public BaseResponse update(@RequestBody RoadLineInfoEntity updatedRoadLineInfoEntity) {
-        roadLineInfoRepository.save(updatedRoadLineInfoEntity);
+    public BaseResponse update(@RequestBody GasEntity updatedGasEntity) {
+        gasRepository.save(updatedGasEntity);
         return BaseResponse.instance();
     }
 
     @GetMapping("/{pageSize}/{pageNo}")
-    public BaseResponse<PageResult<RoadLineInfoEntity>> page(@PathVariable("pageSize") int pageSize, @PathVariable("pageNo") int pageNo) {
-        Page<RoadLineInfoEntity> page = roadLineInfoRepository.findAll(PageRequest.of(pageNo - 1, pageSize));
-        PageResult<RoadLineInfoEntity> result = new PageResult<RoadLineInfoEntity>();
+    public BaseResponse<PageResult<GasEntity>> page(@PathVariable("pageSize") int pageSize, @PathVariable("pageNo") int pageNo) {
+        Page<GasEntity> page = gasRepository.findAll(PageRequest.of(pageNo - 1, pageSize));
+        PageResult<GasEntity> result = new PageResult<GasEntity>();
         result.setContent(page.getContent());
         result.setPageNo(pageNo);
         result.setPageSize(pageSize);
@@ -54,14 +55,14 @@ public class RoadLineInfoController {
     }
 
     @GetMapping("/list")
-    public BaseResponse<List<RoadLineInfoEntity>> list() {
-        List<RoadLineInfoEntity> all = roadLineInfoRepository.findAll();
+    public BaseResponse<List<GasEntity>> list() {
+        List<GasEntity> all = gasRepository.findAll();
         return new BaseResponse(all);
     }
 
     @DeleteMapping("/{id}")
     public BaseResponse delete(@PathVariable("id") Integer id) {
-        roadLineInfoRepository.deleteById(id);
+        gasRepository.deleteById(id);
         return new BaseResponse();
     }
 
